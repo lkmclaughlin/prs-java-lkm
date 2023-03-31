@@ -21,11 +21,11 @@ public class Request {
 	private String justification;
 	@Column(length=80, nullable=true)
 	private String rejectionReason;
-	@Column(length=20, nullable=false, columnDefinition="default Pickup")
+	@Column(length=20, nullable=false)
 	private String deliveryMode;
-	@Column(length=10, nullable=false, columnDefinition="default NEW")
+	@Column(length=10, nullable=false)
 	private String status;
-	@Column(columnDefinition="decimal(11,2) NOT NULL default 0")
+	@Column(columnDefinition="decimal(11,2) not null")
 	private double total;
 	
 	@ManyToOne(optional=false)
@@ -37,13 +37,6 @@ public class Request {
 	@OneToMany(mappedBy="request")
 	private List<Requestline> requestlines;
 	
-	public List<Requestline> getRequestlines(){
-		return requestlines;
-	}
-	
-	public void setRequestlines(List<Requestline> requestlines) {
-		this.requestlines = requestlines;
-	}
 	
 	public Request() {}
 
@@ -109,6 +102,14 @@ public class Request {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Requestline> getRequestlines(){
+		return requestlines;
+	}
+	
+	public void setRequestlines(List<Requestline> requestlines) {
+		this.requestlines = requestlines;
 	}
 	
 }

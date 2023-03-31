@@ -15,6 +15,9 @@ import com.maxtrain.bootcamp.prs.user.User;
 @RequestMapping("/api/requests")
 public class RequestController {
 	
+	private static final String Status_Approved = "APPROVED";
+	private static final String Status_Rejected = "REJECTED";
+	private static final String Status_Review = "REVIEW";
 	@Autowired
 	private RequestRepository reqRepo;
 
@@ -48,14 +51,40 @@ public class RequestController {
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
+	//\\//\\//
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping("review/{id}")
+	public ResponseEntity reviewRequest(@PathVariable int id, @RequestBody Request request) {
+		String newStatus = request.getTotal() <= 100 ? Status_Approved : Status_Review;
+		request.setStatus(newStatus);
+		return putRequest(id, request);
+		}
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping("approve/{id}")
+	public ResponseEntity approveRequest(@PathVariable int id, @RequestBody Request request) {
+		request.setStatus(Status_Approved);
+		return putRequest(id, request);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@PutMapping("reject/{id}")
+	public ResponseEntity rejectRequest(@PathVariable int id, @RequestBody Request request) {
+		request.setStatus(Status_Rejected);
+		return putRequest(id, request);
+	}
+//\\//\\//\\//\\
+	
+	
 	@SuppressWarnings("rawtypes")
 	@DeleteMapping("{id}")
 	public ResponseEntity deleteRequest(@PathVariable int id){
-		Optional<Request> user = reqRepo.findById(id);
-		if(user.isEmpty()) {
+		Optional<Request> request = reqRepo.findById(id);
+		if(request.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-		reqRepo.delete(user.get());
+		reqRepo.delete(request.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
 	}	
 	
