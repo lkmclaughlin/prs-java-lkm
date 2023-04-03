@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.maxtrain.bootcamp.prs.vendor.Vendor;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/api/users")
@@ -22,13 +20,24 @@ public class UserController {
 	}
 	
 	@GetMapping("{id}")
-	public ResponseEntity<User> getUser(@PathVariable int id){
+	public ResponseEntity<User> getUser(@PathVariable int id) {
 		Optional<User> user = userRepo.findById(id);
 		if(user.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<User>(user.get(), HttpStatus.OK);		
 	}
+	
+	@SuppressWarnings({})
+	@GetMapping("{username}/{password}")
+	public ResponseEntity<User> loginUser(@PathVariable String username, @PathVariable String password) {
+		Optional<User> user = userRepo.findByUsernameAndPassword(username, password);
+		if(user.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<User>(user.get(), HttpStatus.OK);		
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<User> postUser(@RequestBody User user){

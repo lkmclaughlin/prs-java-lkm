@@ -3,7 +3,7 @@ package com.maxtrain.bootcamp.prs.request;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import com.maxtrain.bootcamp.prs.requestline.Requestline;
 import com.maxtrain.bootcamp.prs.user.User;
 import jakarta.persistence.*;
@@ -32,8 +32,7 @@ public class Request {
 	@JoinColumn(name="userId")
 	private User user;
 	
-	
-	@JsonBackReference
+	@JsonManagedReference
 	@OneToMany(mappedBy="request")
 	private List<Requestline> requestlines;
 	

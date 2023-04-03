@@ -1,7 +1,6 @@
 package com.maxtrain.bootcamp.prs.product;
 
 import com.maxtrain.bootcamp.prs.vendor.Vendor;
-
 import jakarta.persistence.*;
 
 @Entity

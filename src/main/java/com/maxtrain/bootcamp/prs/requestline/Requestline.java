@@ -1,9 +1,8 @@
 package com.maxtrain.bootcamp.prs.requestline;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.maxtrain.bootcamp.prs.product.Product;
 import com.maxtrain.bootcamp.prs.request.Request;
-
+import com.maxtrain.bootcamp.prs.product.Product;
 import jakarta.persistence.*;
 
 @Entity

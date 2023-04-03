@@ -4,25 +4,24 @@ package com.maxtrain.bootcamp.prs.request;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import com.maxtrain.bootcamp.prs.user.User;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/requests")
 public class RequestController {
 	
-	private static final String Status_Approved = "APPROVED";
-	private static final String Status_Rejected = "REJECTED";
-	private static final String Status_Review = "REVIEW";
+	private final String Status_New = "NEW";
+	private final String Status_Approved = "APPROVED";
+	private final String Status_Rejected = "REJECTED";
+	private final String Status_Review = "REVIEW";
+	
 	@Autowired
-	private RequestRepository reqRepo;
+	private RequestRepository reqRepo;	
 
 	@GetMapping
-	public ResponseEntity<Iterable<Request>> getRequest(){
+	public ResponseEntity<Iterable<Request>> getRequests(){
 		Iterable<Request> requests = reqRepo.findAll();
 		return new ResponseEntity<Iterable<Request>>(requests, HttpStatus.OK);
 	}
@@ -35,10 +34,17 @@ public class RequestController {
 		return new ResponseEntity<Request>(request.get(), HttpStatus.OK);		
 	}
 	
+	@GetMapping("reviews/!{userId}")
+	public ResponseEntity<Iterable<Request>> getRequestsInReview(@PathVariable int userId){
+		Iterable<Request> requestsInReview = reqRepo.findByStatusAndUserIdNot(Status_Review, userId);
+		return new ResponseEntity<Iterable<Request>>(requestsInReview, HttpStatus.OK);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Request> postRequest(@RequestBody Request request){
 		Request newRequest = reqRepo.save(request);
 		return new ResponseEntity<Request>(newRequest, HttpStatus.CREATED);	
+		
 	}
 	
 	@SuppressWarnings("rawtypes")	
