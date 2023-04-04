@@ -57,12 +57,12 @@ public class RequestController {
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
-	//\\//\\//
+//\\//\\//
 	
 	@SuppressWarnings("rawtypes")
 	@PutMapping("review/{id}")
 	public ResponseEntity reviewRequest(@PathVariable int id, @RequestBody Request request) {
-		String newStatus = request.getTotal() <= 100 ? Status_Approved : Status_Review;
+		String newStatus = request.getTotal() <= 50 ? Status_Approved : Status_Review;
 		request.setStatus(newStatus);
 		return putRequest(id, request);
 		}
@@ -80,8 +80,7 @@ public class RequestController {
 		request.setStatus(Status_Rejected);
 		return putRequest(id, request);
 	}
-//\\//\\//\\//\\
-	
+//\\//\\//
 	
 	@SuppressWarnings("rawtypes")
 	@DeleteMapping("{id}")
